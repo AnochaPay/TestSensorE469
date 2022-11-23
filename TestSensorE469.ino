@@ -3,9 +3,15 @@
 //Create project 
 #pragma endregion
 
+#include <Wire.h>
+
 #pragma region ===================================== Input =====================================
-/// @brief Define pin of led red
-#define pinRed 2
+/// @brief Define pin of Interrupt 1
+#define pinInt1 2
+/// @brief Define pin of Interrupt 2
+#define pinInt2 3
+/// @brief Define pin of Select i2c
+#define pinSelect 4
 
 /// @brief For read input serial monitor event
 String CMD_HELP = "help";
@@ -14,6 +20,13 @@ String inputString;
 /// @brief Flag read serial event complete
 bool stringComplete;
 
+/// @brief Flag of interrupt sensor 1
+bool flagSensorInt1;
+/// @brief Flag of interrupt sensor 2
+bool flagSensorInt2;
+#pragma endregion
+
+#pragma region ===================================== Cal =====================================
 /// @brief Event serial input interrup
 void serialEvent()
 {
@@ -42,9 +55,6 @@ void ClearInputString()
 {
   inputString = "";
 }
-#pragma endregion
-
-#pragma region ===================================== Cal =====================================
 /// @brief Check cmd serial to select function process
 void SelectCmd()
 {
@@ -55,38 +65,18 @@ void SelectCmd()
   stringComplete = false;
   SendReturnCmd();
 
-  if (inputString == LED_OFF + LED_ALL)
-  {
-    SetOffLed(ledAll);
-  }
-  else if (inputString == CMD_HELP)
-  {
-    SendHelpCmd();
-  }
-  else if (inputString.substring(0, 9).equalsIgnoreCase(TEST_FAIL))
-  {
-    String StrHeader = SeparateStringByCharacter(inputString, ',', 1);
-
-    if (StrHeader == "")
-    {
-      
-    }
-    else if (StrHeader == "STEP5_GREEN")
-    {
-      
-    }
-    else
-    {
-      SendErrorCmd();
-      ClearInputString();
-      return;
-    }
-    SendModeTestComplete();
-  }
-  else
-  {
-    SendErrorCmd();
-  }
+//  if (inputString == LED_OFF + LED_ALL)
+//  {
+//    SetOffLed(ledAll);
+//  }
+//  else if (inputString.substring(0, 9).equalsIgnoreCase(TEST_FAIL))
+//  {
+//    String StrHeader = SeparateStringByCharacter(inputString, ',', 1);
+//  }
+//  else
+//  {
+//    SendErrorCmd();
+//  }
   ClearInputString();
 }
 /// @brief Function split string
@@ -110,6 +100,24 @@ String SeparateStringByCharacter(String data, char separator, int index)
   }
   return found > index ? data.substring(strIndex[0], strIndex[1]) : "";
 }
+/// @brief Set pin select SDA i2c chanel 1
+void SetPinSelectI2cChanel1(){
+  digitalWrite(pinSelect, HIGH);
+}
+/// @brief Set pin select SDA i2c chanel 2
+void SetPinSelectI2cChanel2(){
+  digitalWrite(pinSelect, LOW);
+}
+/// @brief Event interrupt sensor 1 on to set flagSensorInt1 true
+void InterRuptSensor1()          
+{                   
+   flagSensorInt1 = true;
+}
+/// @brief Event interrupt sensor 2 on to set flagSensorInt2 true
+void InterRuptSensor2()          
+{                   
+   flagSensorInt2 = true;
+}
 #pragma endregion
 
 #pragma region ===================================== Display =====================================
@@ -121,7 +129,7 @@ void SendErrorCmd()
 /// @brief Send Message StartUp to serial monitor
 void SendWelcom()
 {
-  Serial.println(F("//================ Welcom to Test Unit ===============//"));
+  Serial.println(F("//================ Welcom to Test Sensor E469 ===============//"));
 }
 /// @brief Send message cmd return back to serial monitor
 void SendReturnCmd()
@@ -159,9 +167,12 @@ void SendHelpCmd(){
 /// @brief Void Setup of arduino
 void setup()
 {
-  //pinMode(pinSwitch, INPUT_PULLUP);
-  //pinMode(pinPower, INPUT_PULLUP);
-  pinMode(pinRed, OUTPUT);
+  pinMode(pinInt1, INPUT_PULLUP);
+  pinMode(pinInt2, INPUT_PULLUP);
+  pinMode(pinSelect, OUTPUT);
+  attachInterrupt(digitalPinToInterrupt(pinInt1),InterRuptSensor1,FALLING); 
+  attachInterrupt(digitalPinToInterrupt(pinInt2),InterRuptSensor2,FALLING); 
+  Wire.begin();
   Serial.begin(9600);
   SendWelcom();
 }
