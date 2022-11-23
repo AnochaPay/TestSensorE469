@@ -55,30 +55,6 @@ void ClearInputString()
 {
   inputString = "";
 }
-/// @brief Check cmd serial to select function process
-void SelectCmd()
-{
-  if (!stringComplete)
-  {
-    return;
-  }
-  stringComplete = false;
-  SendReturnCmd();
-
-//  if (inputString == LED_OFF + LED_ALL)
-//  {
-//    SetOffLed(ledAll);
-//  }
-//  else if (inputString.substring(0, 9).equalsIgnoreCase(TEST_FAIL))
-//  {
-//    String StrHeader = SeparateStringByCharacter(inputString, ',', 1);
-//  }
-//  else
-//  {
-//    SendErrorCmd();
-//  }
-  ClearInputString();
-}
 /// @brief Function split string
 /// @param data Input string
 /// @param separator Char split
@@ -182,5 +158,43 @@ void loop()
   CheckInputSerial();
   SelectCmd();
   delay(100);
+  
+  Serial.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
+  if(flagSensorInt1){
+    flagSensorInt1 = false;
+    Serial.println("Sensor1=1");
+  }else{
+    Serial.println("Sensor1=0");
+  }
+  if(flagSensorInt2){
+    flagSensorInt2 = false;
+    Serial.println("Sensor2=1");
+  }else{
+    Serial.println("Sensor2=0");
+  }
+}
+/// @brief Check cmd serial to select function process
+void SelectCmd()
+{
+  if (!stringComplete)
+  {
+    return;
+  }
+  stringComplete = false;
+  SendReturnCmd();
+
+//  if (inputString == LED_OFF + LED_ALL)
+//  {
+//    SetOffLed(ledAll);
+//  }
+//  else if (inputString.substring(0, 9).equalsIgnoreCase(TEST_FAIL))
+//  {
+//    String StrHeader = SeparateStringByCharacter(inputString, ',', 1);
+//  }
+//  else
+//  {
+//    SendErrorCmd();
+//  }
+  ClearInputString();
 }
 #pragma endregion
