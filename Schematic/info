@@ -1,0 +1,54 @@
+{
+  "uuid": "98d81190daa65631396623bae761b182",
+  "path": "Offline/TestSensorE469",
+  "name": "TestSensorE469",
+  "content": "",
+  "created_at": "2022-11-23 08:48:16",
+  "updated_at": "2022-11-23 09:26:34",
+  "stick": "",
+  "documents": [
+    {
+      "uuid": "5c6254c4c815646b6e4f5c9f58f73b22",
+      "title": "Sheet_1",
+      "description": "",
+      "docType": "1",
+      "master": "",
+      "thumb": "/images/thumb-default.png",
+      "components": {
+        "b0248eb51e084227889f2cb84eab79c4": 2
+      },
+      "BOM": [
+        [
+          "Value",
+          "Quantity",
+          "Package",
+          "Components",
+          "CustomPara"
+        ],
+        [
+          "1k",
+          2,
+          "R0603",
+          "R1,R2",
+          {
+            "BOM_Supplier Part": "",
+            "BOM_Supplier": "",
+            "BOM_Manufacturer Part": "",
+            "puuid": "398691f1f785460098bbe5ee6590333c",
+            "uuid": "b0248eb51e084227889f2cb84eab79c4"
+          }
+        ]
+      ],
+      "updateTime": 1669170394,
+      "createTime": 1669168096,
+      "histories": [],
+      "created_at": "2022-11-23 08:48:16",
+      "updated_at": "2022-11-23 09:26:34"
+    }
+  ],
+  "sort": [],
+  "title": "TestSensorE469",
+  "foldername": "TestSensorE469",
+  "schfilename": "TestSensorE469.json",
+  "schfilemtime": 1669170394998
+}
